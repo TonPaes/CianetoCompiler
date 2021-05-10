@@ -295,6 +295,9 @@ public class Compiler {
 			if ( lexer.token == Token.ID && lexer.getStringValue().equals("Out") ) {
 				writeStat();
 			}
+			else if ( lexer.token == Token.ID && lexer.getStringValue().equals("In")) {
+				readExpr();
+			}
 			else {
 				expr();
 			}
@@ -303,6 +306,15 @@ public class Compiler {
 		if ( checkSemiColon ) {
 			check(Token.SEMICOLON, "';' expected");
 		}
+	}
+
+	private void readExpr() {
+		next();
+		check(Token.DOT, "read expression expect a '.' after 'In'");
+		next();
+		
+		if (lexer.token != Token.READINT && lexer.token != Token.READSTRING)
+			error("A read expressions was expected");
 	}
 
 	private void localDec() {
