@@ -314,7 +314,7 @@ public class Compiler {
 		next();
 		
 		if (lexer.token != Token.READINT && lexer.token != Token.READSTRING)
-			error("A read expressions was expected");
+			error("A read expression was expected");
 	}
 
 	private void localDec() {
@@ -488,7 +488,7 @@ public class Compiler {
 		return null;
 	}
 
-
+	
 
 
 	private LiteralIntExpr literalInt() {
@@ -512,6 +512,27 @@ public class Compiler {
 				|| token == Token.ID || token == Token.LITERALSTRING;
 
 	}
+
+	//methods that i think i gonna use goes here(based on grammar) if not used yet
+	private void member(){	} 
+	private void basicType(){}
+	private void idList(){}
+	private void formalParamDec(){}
+	private void paramDec(){}
+	private void assignExpr(){}
+	private void simpleExpr(){}
+	private void sumSubExpr(){}
+	private void term(){}
+	private void hightOperator(){}
+	private void lowOperator(){}
+	private void signalFactor(){}
+	private void signal(){}
+	private void basicValue(){}
+	private void booleanValue(){}
+	private void objectCreation(){}
+	private void primaryExpr(){}
+	private void exprList(){}
+	private void realation(){}
 
 	private SymbolTable		symbolTable;
 	private Lexer			lexer;
