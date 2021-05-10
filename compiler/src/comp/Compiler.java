@@ -5,6 +5,8 @@ package comp;
 
 import java.io.PrintWriter;
 import java.util.ArrayList;  // may use Vector too
+import java.util.Arrays;
+
 import ast.LiteralIntExpr;
 import ast.MetaobjectAnnotation;
 import ast.Program;
@@ -400,6 +402,12 @@ public class Compiler {
 	}
 
 	private void expr() {
+		Token[] relations = new Token[] {Token.EQ, Token.LT, Token.GT, Token.LE, Token.GE, Token.NEQ};
+		
+		simpleExpr();
+		
+		if (Arrays.asList(relations).contains(lexer.token))
+			simpleExpr();
 
 	}
 
@@ -463,6 +471,9 @@ public class Compiler {
 			}
 		}
 	}
+
+	
+
 	/**
 	 * change this method to 'private'.
 	 * uncomment it
@@ -486,6 +497,44 @@ public class Compiler {
 			lexer.nextToken();
 
 		return null;
+	}
+
+	private void simpleExpr(){
+		sumSubExpr();
+		while(lexer.token == Token.CONCAT) {
+			next();
+			sumSubExpr();
+		}
+	}
+
+	private void sumSubExpr(){
+		Token[] lowOp = new Token[] {Token.PLUS, Token.MINUS, Token.OR};		
+		
+		term();
+		
+		while(Arrays.asList(lowOp).contains(lexer.token)){
+			next();
+			term();
+		}
+	}
+
+	private void term(){
+		Token[] highOp = new Token[] {Token.AND, Token.MULT, Token.DIV};
+		
+		signalFactor();
+		
+		while(Arrays.asList(highOp).contains(lexer.token)){
+			next();
+			signalFactor();
+		}		
+	}
+
+	private void signalFactor(){
+		Token[] signal = new Token[] {Token.PLUS, Token.MINUS};
+
+		if(Arrays.asList(signal).contains(lexer.token))
+			next();
+		factor();
 	}
 
 	
@@ -520,12 +569,10 @@ public class Compiler {
 	private void formalParamDec(){}
 	private void paramDec(){}
 	private void assignExpr(){}
-	private void simpleExpr(){}
-	private void sumSubExpr(){}
-	private void term(){}
+	private void factor(){}
 	private void hightOperator(){}
 	private void lowOperator(){}
-	private void signalFactor(){}
+	
 	private void signal(){}
 	private void basicValue(){}
 	private void booleanValue(){}
