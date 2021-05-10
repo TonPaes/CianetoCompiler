@@ -348,6 +348,47 @@ public class Compiler {
 		check(Token.UNTIL, "missing keyword 'until'");
 	}
 
+	private void primaryExpr(){
+		switch (lexer.token) {
+			case SUPER :
+				if(lexer.token != Token.DOT)
+					error("Expects a '.' after 'super' keyword");
+				next();
+				if(lexer.token == Token.IDCOLON )
+					break;
+				else if(lexer.token == Token.ID){
+					next();
+					exprList();
+				}
+				else
+					error("Expects an ID after 'super.' keyword");
+				break;
+
+			case ID:
+				next();
+				if (lexer.token == Token.DOT){
+					next();
+					if(lexer.token == Token.IDCOLON)
+						break;
+					else if(lexer.token == Token.ID){
+						next();
+						exprList();
+					}
+					else
+						error("Expects an ID after ID keyword");
+				}
+				break;
+			case SELF:
+				break;
+
+			default:
+				readExpr();
+				break;
+		}
+	}
+
+
+
 	private void breakStat() {
 		next();
 
@@ -577,7 +618,7 @@ public class Compiler {
 	private void basicValue(){}
 	private void booleanValue(){}
 	private void objectCreation(){}
-	private void primaryExpr(){}
+	
 	private void exprList(){}
 	private void realation(){}
 
